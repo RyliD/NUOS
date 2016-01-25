@@ -1,2 +1,9 @@
+*.list
+*.map
+*.img
+*.stackdump
+/bin
+/obj
+
 *.userprefs
 *~
