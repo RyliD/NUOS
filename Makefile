@@ -61,28 +61,37 @@ $(ELF) : \
 	$(OBJDIR)\cstubs.o \
 	$(LINKFLAGS)
 
-$(OBJDIR)\boot\start.o: $(SRCDIR)\boot\start.s
+$(BINDIR): 
+	mkdir $(BINDIR)
+
+$(OBJDIR): 
+	mkdir $(OBJDIR)
+
+$(OBJDIR)\boot: 
+	mkdir $(OBJDIR)\boot
+
+$(OBJDIR)\boot\start.o: $(SRCDIR)\boot\start.s $(OBJDIR) $(OBJDIR)\boot
 	$(ASM) $(ASMFLAGS) $<
 
-$(OBJDIR)\boot\cstartup.o: $(SRCDIR)\boot\cstartup.c $(APP_DEP)
+$(OBJDIR)\boot\cstartup.o: $(SRCDIR)\boot\cstartup.c $(APP_DEP) $(OBJDIR) $(OBJDIR)\boot
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\kernel.o: $(SRCDIR)\kernel.c $(APP_DEP)
+$(OBJDIR)\kernel.o: $(SRCDIR)\kernel.c $(APP_DEP) $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\rpi-armtimer.o: $(SRCDIR)\rpi-armtimer.c $(APP_DEP)
+$(OBJDIR)\rpi-armtimer.o: $(SRCDIR)\rpi-armtimer.c $(APP_DEP) $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\rpi-gpio.o: $(SRCDIR)\rpi-gpio.c $(APP_DEP)
+$(OBJDIR)\rpi-gpio.o: $(SRCDIR)\rpi-gpio.c $(APP_DEP) $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\rpi-interrupts.o: $(SRCDIR)\rpi-interrupts.c $(APP_DEP)
+$(OBJDIR)\rpi-interrupts.o: $(SRCDIR)\rpi-interrupts.c $(APP_DEP) $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
 $(OBJDIR)\rpi-systimer.o: $(SRCDIR)\rpi-systimer.c $(APP_DEP)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\cstubs.o: $(SRCDIR)\cstubs.c
+$(OBJDIR)\cstubs.o: $(SRCDIR)\cstubs.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
 clean:
