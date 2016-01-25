@@ -4,8 +4,8 @@ CSC390 Operating Systems
 
 - Installation Instructions for build on windows
 
-[Installers Blake Used](C:\Program Files (x86)\GNU Tools ARM Embedded\4.7 2013q3\bin)
-C:\Program Files (x86)\GNU Tools ARM Embedded\4.7 2013q3\bin
+[Installers Blake Used](https://onedrive.live.com/redir?resid=C9BED2494B9702A!63762&authkey=!ABqKlNe5m71Tu2A&ithint=file%2czip)
+https://onedrive.live.com/redir?resid=C9BED2494B9702A!63762&authkey=!ABqKlNe5m71Tu2A&ithint=file%2czip
 
 1. Install MinGW
     1. The version I used and included in the zip file is 0.6.2-beta-20131004-1 (mingw-get-setup.exe)
