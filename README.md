@@ -5,14 +5,14 @@ CSC390 Operating Systems
 - Installation Instructions for build on windows
 
 [Installers Blake Used](C:\Program Files (x86)\GNU Tools ARM Embedded\4.7 2013q3\bin)
-
+C:\Program Files (x86)\GNU Tools ARM Embedded\4.7 2013q3\bin
 
 1. Install MinGW
     1. The version I used and included in the zip file is 0.6.2-beta-20131004-1 (mingw-get-setup.exe)
 
 2. Run the MinGW Installation Manager
 
-![Installation manager](https://github.com/RyliD/NUOS/install.png)
+![Installation manager](https://github.com/RyliD/NUOS/blob/master/install.png)
 
 3. Install the needed pieces
     1. I have no idea what is needed, but this is what I have:
