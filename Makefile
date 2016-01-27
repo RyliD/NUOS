@@ -19,7 +19,7 @@ NM      = $(BINDIR)/$(APP_NAME).nm
 LIST    = $(BINDIR)/$(APP_NAME).list
 
 CCINC   = -I$(OBJDIR)
-APP_DEP = $(SRCDIR)\rpi-interrupts.h
+APP_DEP = $(SRCDIR)/rpi-interrupts.h
 
 CCFLAGS = -c -O0 -DRPI2 -mfpu=neon-vfpv4 -mfloat-abi=hard \
     -march=armv7-a -mtune=cortex-a7 -nostartfiles -o$@
@@ -40,7 +40,7 @@ $(LIST) : $(ELF)
 $(IMAGE) : $(ELF)
 	arm-none-eabi-objcopy $(ELF) -O binary $(IMAGE) 
     
-$(ELF) : \
+$(ELF) : $(BINDIR) \
 	./$(LINKER) \
 	$(OBJDIR)/boot/start.o \
 	$(OBJDIR)/boot/cstartup.o \

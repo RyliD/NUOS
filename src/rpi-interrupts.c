@@ -145,5 +145,22 @@ void __attribute__((interrupt("IRQ"))) interrupt_vector(void)
 */
 void __attribute__((interrupt("FIQ"))) fast_interrupt_vector(void)
 {
+    static int lit = 0;
 
+    /* Clear the ARM Timer interrupt - it's the only interrupt we have
+       enabled, so we want don't have to work out which interrupt source
+       caused us to interrupt */
+    RPI_GetArmTimer()->IRQClear = 1;
+
+    /* Flip the LED */
+    if( lit )
+    {
+        LED_OFF();
+        lit = 0;
+    }
+    else
+    {
+        LED_ON();
+        lit = 1;
+    }
 }
