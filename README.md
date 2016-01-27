@@ -82,7 +82,7 @@ CSC390 Operating Systems
     * msys-xz                   bin   5.0.3-1-msys-1.0.17
     * msys-zlib                 dll   1.2.7-1-msys-1.0.17
 4. Wait for everything to download and install
-    1. Everything will go into a forlder "C:\MinGW"
+    1. Everything will go into a folder "C:\MinGW"
 5. Install the ARM Compiler
     1. I included the installer I used in the zip file. (gcc-arm-none-eabi-4_7-2013q3-20130916-win32.exe)
     2. The arm stuff will install into “C:\Program Files (x86)\GNU Tools ARM Embedded\4.7 2013q3”

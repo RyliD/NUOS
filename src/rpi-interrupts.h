@@ -70,7 +70,4 @@ typedef struct {
 
 extern rpi_irq_controller_t* RPI_GetIrqController( void );
 
-extern void _get_stack_pointer(void);
-extern void _enable_interrupts(void);
-
 #endif
