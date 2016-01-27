@@ -41,24 +41,24 @@ $(IMAGE) : $(ELF)
 	arm-none-eabi-objcopy $(ELF) -O binary $(IMAGE) 
     
 $(ELF) : \
-	.\$(LINKER) \
-	$(OBJDIR)\boot\start.o \
-	$(OBJDIR)\boot\cstartup.o \
-	$(OBJDIR)\kernel.o \
-	$(OBJDIR)\rpi-armtimer.o \
-	$(OBJDIR)\rpi-gpio.o \
-	$(OBJDIR)\rpi-interrupts.o \
-	$(OBJDIR)\rpi-systimer.o \
-	$(OBJDIR)\cstubs.o
+	./$(LINKER) \
+	$(OBJDIR)/boot/start.o \
+	$(OBJDIR)/boot/cstartup.o \
+	$(OBJDIR)/kernel.o \
+	$(OBJDIR)/rpi-armtimer.o \
+	$(OBJDIR)/rpi-gpio.o \
+	$(OBJDIR)/rpi-interrupts.o \
+	$(OBJDIR)/rpi-systimer.o \
+	$(OBJDIR)/cstubs.o
 	$(LINK) \
-	$(OBJDIR)\boot\start.o \
-	$(OBJDIR)\boot\cstartup.o \
-	$(OBJDIR)\kernel.o \
-	$(OBJDIR)\rpi-armtimer.o \
-	$(OBJDIR)\rpi-gpio.o \
-	$(OBJDIR)\rpi-interrupts.o \
-	$(OBJDIR)\rpi-systimer.o \
-	$(OBJDIR)\cstubs.o \
+	$(OBJDIR)/boot/start.o \
+	$(OBJDIR)/boot/cstartup.o \
+	$(OBJDIR)/kernel.o \
+	$(OBJDIR)/rpi-armtimer.o \
+	$(OBJDIR)/rpi-gpio.o \
+	$(OBJDIR)/rpi-interrupts.o \
+	$(OBJDIR)/rpi-systimer.o \
+	$(OBJDIR)/cstubs.o \
 	$(LINKFLAGS)
 
 $(BINDIR): 
@@ -67,33 +67,33 @@ $(BINDIR):
 $(OBJDIR): 
 	mkdir $(OBJDIR)
 
-$(OBJDIR)\boot: 
-	mkdir $(OBJDIR)\boot
+$(OBJDIR)/boot: 
+	mkdir $(OBJDIR)/boot
 
-$(OBJDIR)\boot\start.o: $(SRCDIR)\boot\start.s $(OBJDIR) $(OBJDIR)\boot
+$(OBJDIR)/boot/start.o: $(SRCDIR)/boot/start.s $(OBJDIR) $(OBJDIR)/boot
 	$(ASM) $(ASMFLAGS) $<
 
-$(OBJDIR)\boot\cstartup.o: $(SRCDIR)\boot\cstartup.c $(APP_DEP) $(OBJDIR) $(OBJDIR)\boot
+$(OBJDIR)/boot/cstartup.o: $(SRCDIR)/boot/cstartup.c $(APP_DEP) $(OBJDIR) $(OBJDIR)/boot
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\kernel.o: $(SRCDIR)\kernel.c $(APP_DEP) $(OBJDIR)
+$(OBJDIR)/kernel.o: $(SRCDIR)/kernel.c $(APP_DEP) $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\rpi-armtimer.o: $(SRCDIR)\rpi-armtimer.c $(APP_DEP) $(OBJDIR)
+$(OBJDIR)/rpi-armtimer.o: $(SRCDIR)/rpi-armtimer.c $(APP_DEP) $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\rpi-gpio.o: $(SRCDIR)\rpi-gpio.c $(APP_DEP) $(OBJDIR)
+$(OBJDIR)/rpi-gpio.o: $(SRCDIR)/rpi-gpio.c $(APP_DEP) $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\rpi-interrupts.o: $(SRCDIR)\rpi-interrupts.c $(APP_DEP) $(OBJDIR)
+$(OBJDIR)/rpi-interrupts.o: $(SRCDIR)/rpi-interrupts.c $(APP_DEP) $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\rpi-systimer.o: $(SRCDIR)\rpi-systimer.c $(APP_DEP)
+$(OBJDIR)/rpi-systimer.o: $(SRCDIR)/rpi-systimer.c $(APP_DEP)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)\cstubs.o: $(SRCDIR)\cstubs.c $(OBJDIR)
+$(OBJDIR)/cstubs.o: $(SRCDIR)/cstubs.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
 clean:
-	-$(RM) $(BINDIR)\*.*
-	-$(RM) $(OBJDIR)\*.*
+	-$(RM) $(BINDIR)/*.*
+	-$(RM) $(OBJDIR)/*.*
