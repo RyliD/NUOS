@@ -148,14 +148,6 @@ int kill( int pid, int sig )
 }
 
 
-/* Establish a new name for an existing file. Minimal implementation: */
-int link( char *old, char *new )
-{
-    errno = EMLINK;
-    return -1;
-}
-
-
 /* Set position in a file. Minimal implementation: */
 int lseek(int file, int ptr, int dir)
 {
