@@ -1,47 +1,8 @@
-/*
-*  Part of the Raspberry-Pi Bare Metal Tutorials
-*  Copyright (c) 2013, Brian Sidebotham
-*  All rights reserved.
-*
-*  Redistribution and use in source and binary forms, with or without
-*  modification, are permitted provided that the following conditions are met:
-*
-*  1. Redistributions of source code must retain the above copyright notice,
-*      this list of conditions and the following disclaimer.
-*
-*  2. Redistributions in binary form must reproduce the above copyright notice,
-*     this list of conditions and the following disclaimer in the
-*      documentation and/or other materials provided with the distribution.
-*
-*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-*  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-*  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-*  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-*  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-*  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-*  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-*  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-*  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-*  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-*  POSSIBILITY OF SUCH DAMAGE.
-*/
-
 .section ".text.startup"
 
 .global _start
 .global _get_stack_pointer
-.global _exception_table
 .global _enable_interrupts
-
-/*
-* From the ARM ARM (Architecture Reference Manual). Make sure you get the
-* ARMv5 documentation which includes the ARMv6 documentation which is the
-* correct processor type for the Broadcom BCM2835. The ARMv6-M manuals
-* available on the ARM website are for Cortex-M parts only and are very
-* different.
-*
-* See ARM section A2.2 (Processor Modes)
-*/
 
 .equ    CPSR_MODE_USER,         0x10
 .equ    CPSR_MODE_FIQ,          0x11
@@ -50,8 +11,6 @@
 .equ    CPSR_MODE_ABORT,        0x17
 .equ    CPSR_MODE_UNDEFINED,    0x1B
 .equ    CPSR_MODE_SYSTEM,       0x1F
-
-/* See ARM section A2.5 (Program status registers) */
 .equ    CPSR_IRQ_INHIBIT,       0x80
 .equ    CPSR_FIQ_INHIBIT,       0x40
 .equ    CPSR_THUMB,             0x20
@@ -88,8 +47,7 @@ _reset_:
 
     /* We're going to use interrupt mode, so setup the interrupt mode
     * stack pointer which differs to the application stack pointer: */
-    mov r0, #(CPSR_MODE_IRQ | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
-    msr cpsr_c, r0
+    msr cpsr_c, #(CPSR_MODE_IRQ | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
     /* mov sp, 0x03f00000 */
     mov sp, #(63 * 1024 * 1024)
 
@@ -97,8 +55,7 @@ _reset_:
     *  set the stack pointer towards the end of RAM. Remember that the
     *  stack works its way down memory, our heap will work it's way
     *  up memory toward the application stack. */
-    mov r0, #(CPSR_MODE_SVR | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
-    msr cpsr_c, r0
+    msr cpsr_c, #(CPSR_MODE_SVR | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
 
     /* Set the stack pointer at some point in RAM that won't harm us
     *  It's different from the IRQ stack pointer above and no matter

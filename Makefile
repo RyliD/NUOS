@@ -43,6 +43,8 @@ $(IMAGE) : $(ELF)
 $(ELF) : $(BINDIR) \
 	./$(LINKER) \
 	$(OBJDIR)/boot/start.o \
+	$(OBJDIR)/boot/interrupts.o \
+	$(OBJDIR)/boot/c-irq.o \
 	$(OBJDIR)/boot/cstartup.o \
 	$(OBJDIR)/kernel.o \
 	$(OBJDIR)/rpi-armtimer.o \
@@ -52,6 +54,8 @@ $(ELF) : $(BINDIR) \
 	$(OBJDIR)/cstubs.o
 	$(LINK) \
 	$(OBJDIR)/boot/start.o \
+	$(OBJDIR)/boot/interrupts.o \
+	$(OBJDIR)/boot/c-irq.o \
 	$(OBJDIR)/boot/cstartup.o \
 	$(OBJDIR)/kernel.o \
 	$(OBJDIR)/rpi-armtimer.o \
@@ -72,6 +76,12 @@ $(OBJDIR)/boot:
 
 $(OBJDIR)/boot/start.o: $(SRCDIR)/boot/start.s $(OBJDIR) $(OBJDIR)/boot
 	$(ASM) $(ASMFLAGS) $<
+
+$(OBJDIR)/boot/interrupts.o: $(SRCDIR)/boot/interrupts.s $(OBJDIR) $(OBJDIR)/boot
+	$(ASM) $(ASMFLAGS) $<
+
+$(OBJDIR)/boot/c-irq.o: $(SRCDIR)/boot/c-irq.c $(APP_DEP) $(OBJDIR) $(OBJDIR)/boot
+	$(CC) $(CCFLAGS) $(CCINC) $<
 
 $(OBJDIR)/boot/cstartup.o: $(SRCDIR)/boot/cstartup.c $(APP_DEP) $(OBJDIR) $(OBJDIR)/boot
 	$(CC) $(CCFLAGS) $(CCINC) $<
