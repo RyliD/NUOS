@@ -1,93 +1,82 @@
-.section ".text.startup"
+.equ    CPSR_IRQ_DISABLE,    0x80
+.equ    CPSR_FIQ_DISABLE,    0x40
 
-.global _start
-.global _get_stack_pointer
-.global _enable_interrupts
+.equ    CPSR_USR_MODE,       0x10
+.equ    CPSR_FIQ_MODE,       0x11
+.equ    CPSR_IRQ_MODE,       0x12
+.equ    CPSR_SVC_MODE,       0x13
+.equ    CPSR_ABT_MODE,       0x17
+.equ    CPSR_UND_MODE,       0x1B
+.equ    CPSR_SYS_MODE,       0x1F
 
-.equ    CPSR_MODE_USER,         0x10
-.equ    CPSR_MODE_FIQ,          0x11
-.equ    CPSR_MODE_IRQ,          0x12
-.equ    CPSR_MODE_SVR,          0x13
-.equ    CPSR_MODE_ABORT,        0x17
-.equ    CPSR_MODE_UNDEFINED,    0x1B
-.equ    CPSR_MODE_SYSTEM,       0x1F
-.equ    CPSR_IRQ_INHIBIT,       0x80
-.equ    CPSR_FIQ_INHIBIT,       0x40
-.equ    CPSR_THUMB,             0x20
+.equ    USR_STACK_TOP,       0x4000
+.equ    FIQ_STACK_TOP,       0x4000
+.equ    IRQ_STACK_TOP,       0x8000
+.equ    SVC_STACK_TOP,       0x8000000
+.equ    ABT_STACK_TOP,       0x4000
+.equ    UND_STACK_TOP,       0x4000
+.equ    SYS_STACK_TOP,       0x4000
 
+.text
+.code 32
+.globl _start
 _start:
-    ldr pc, _reset_h
-    ldr pc, _undefined_instruction_vector_h
-    ldr pc, _software_interrupt_vector_h
-    ldr pc, _prefetch_abort_vector_h
-    ldr pc, _data_abort_vector_h
-    ldr pc, _unused_handler_h
-    ldr pc, _interrupt_vector_h
-    ldr pc, _fast_interrupt_vector_h
+    LDR pc,reset_handler
+    LDR pc,undefined_handler
+    LDR pc,swi_handler
+    LDR pc,prefetch_handler
+    LDR pc,data_handler
+    LDR pc,unused_handler
+    LDR pc,irq_handler
+    LDR pc,fiq_handler
+reset_handler:      .word _reset
+undefined_handler:  .word _hang
+swi_handler:        .word _hang
+prefetch_handler:   .word _hang
+data_handler:       .word _hang
+unused_handler:     .word _hang
+irq_handler:        .word _irq
+fiq_handler:        .word _hang
 
-_reset_h:                           .word   _reset_
-_undefined_instruction_vector_h:    .word   undefined_instruction_vector
-_software_interrupt_vector_h:       .word   software_interrupt_vector
-_prefetch_abort_vector_h:           .word   prefetch_abort_vector
-_data_abort_vector_h:               .word   data_abort_vector
-_unused_handler_h:                  .word   _reset_
-_interrupt_vector_h:                .word   interrupt_vector
-_fast_interrupt_vector_h:           .word   fast_interrupt_vector
+_reset:
+    MOV     r0,#0x8000
+    MOV     r1,#0x0000
+    LDMIA   r0!,{r2,r3,r4,r5,r6,r7,r8,r9}
+    STMIA   r1!,{r2,r3,r4,r5,r6,r7,r8,r9}
+    LDMIA   r0!,{r2,r3,r4,r5,r6,r7,r8,r9}
+    STMIA   r1!,{r2,r3,r4,r5,r6,r7,r8,r9}
 
-_reset_:
-    /* We enter execution in supervisor mode. For more information on
-    *  processor modes see ARM Section A2.2 (Processor Modes) */
+    /* Initialize stack pointers for all ARM modes */
+    MSR     CPSR_c, #(CPSR_IRQ_MODE | CPSR_IRQ_DISABLE | CPSR_FIQ_DISABLE)
+    MOV     sp, #IRQ_STACK_TOP
 
-    mov     r0, #0x8000
-    mov     r1, #0x0000
-    ldmia   r0!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    stmia   r1!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    ldmia   r0!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    stmia   r1!,{r2, r3, r4, r5, r6, r7, r8, r9}
+    MSR     CPSR_c, #(CPSR_FIQ_MODE | CPSR_IRQ_DISABLE | CPSR_FIQ_DISABLE)
+    MOV     sp, #FIQ_STACK_TOP
 
-    /* We're going to use interrupt mode, so setup the interrupt mode
-    * stack pointer which differs to the application stack pointer: */
-    msr cpsr_c, #(CPSR_MODE_IRQ | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
-    /* mov sp, 0x03f00000 */
-    mov sp, #(63 * 1024 * 1024)
+    MSR     CPSR_c, #(CPSR_SVC_MODE | CPSR_IRQ_DISABLE | CPSR_FIQ_DISABLE)
+    MOV     sp, #SVC_STACK_TOP
 
-    /* Switch back to supervisor mode (our application mode) and
-    *  set the stack pointer towards the end of RAM. Remember that the
-    *  stack works its way down memory, our heap will work it's way
-    *  up memory toward the application stack. */
-    msr cpsr_c, #(CPSR_MODE_SVR | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
+    MSR     CPSR_c, #(CPSR_ABT_MODE | CPSR_IRQ_DISABLE | CPSR_FIQ_DISABLE)
+    MOV     sp, #ABT_STACK_TOP
 
-    /* Set the stack pointer at some point in RAM that won't harm us
-    *  It's different from the IRQ stack pointer above and no matter
-    *  what the GPU/CPU memory split, 64MB is available to the CPU
-    *  Keep it within the limits and also keep it aligned to a 32-bit
-    *  boundary! */
-    /* mov sp, 0x04000000 */
-    mov     sp, #(64 * 1024 * 1024)
+    MSR     CPSR_c, #(CPSR_UND_MODE | CPSR_IRQ_DISABLE | CPSR_FIQ_DISABLE)
+    MOV     sp, #UND_STACK_TOP
 
-    /* The c-startup function which we never return from. This function will
-    *  initialise the ro data section (most things that have the const
-    *  declaration) and initialise the bss section variables to 0 (generally
-    *  known as automatics). It'll then call main, which should never return. */
-    bl      _cstartup
+    MSR     CPSR_c, #(CPSR_SYS_MODE | CPSR_IRQ_DISABLE | CPSR_FIQ_DISABLE)
+    MOV     sp, #SYS_STACK_TOP
 
-    /* If main does return for some reason, just catch it and stay here. */
-_inf_loop:
-    b       _inf_loop
+    BL notmain
+_hang: B _hang
 
-
-_get_stack_pointer:
-    /* Return the stack pointer value */
-    str     sp, [sp]
-    ldr     r0, [sp]
-
-    /* Return from the function */
-    mov     pc, lr
-
-
+.globl _enable_interrupts
 _enable_interrupts:
-    mrs     r0, cpsr
-    bic     r0, r0, #0x80
-    msr     cpsr_c, r0
+    MRS     r0, CPSR
+    BIC     r0, r0, #CPSR_IRQ_DISABLE
+    MSR     CPSR_c, r0
+    BX      lr
 
-    mov     pc, lr
+_irq:
+    PUSH    {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
+    BL      c_irq_handler
+    POP     {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
+    SUBS    pc, lr, #4
