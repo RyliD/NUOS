@@ -1,5 +1,5 @@
 
-#include "../include/init.h"
+#include "init.h"
 
 void init_processor()
 {

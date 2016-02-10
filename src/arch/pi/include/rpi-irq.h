@@ -1,0 +1,27 @@
+
+#ifndef RPI_INTERRUPTS_H
+#define RPI_INTERRUPTS_H
+
+#define RPI_INTERRUPT_CONTROLLER_BASE   RPI_PERIPHERAL_BASE + 0xB200
+
+#define IRQ_basic_pending   RPI_INTERRUPT_CONTROLLER_BASE
+#define IRQ_pending_1       RPI_INTERRUPT_CONTROLLER_BASE + 0x4
+#define IRQ_pending_2       RPI_INTERRUPT_CONTROLLER_BASE + 0x8
+#define FIQ_control         RPI_INTERRUPT_CONTROLLER_BASE + 0xC
+#define Enable_IRQs_1       RPI_INTERRUPT_CONTROLLER_BASE + 0x10
+#define Enable_IRQs_2       RPI_INTERRUPT_CONTROLLER_BASE + 0x14
+#define Enable_Basic_IRQs   RPI_INTERRUPT_CONTROLLER_BASE + 0x18
+#define Disable_IRQs_1      RPI_INTERRUPT_CONTROLLER_BASE + 0x1C
+#define Disable_IRQs_2      RPI_INTERRUPT_CONTROLLER_BASE + 0x20
+#define Disable_Basic_IRQs  RPI_INTERRUPT_CONTROLLER_BASE + 0x24
+
+#define RPI_BASIC_ARM_TIMER_IRQ         (1 << 0)
+#define RPI_BASIC_ARM_MAILBOX_IRQ       (1 << 1)
+#define RPI_BASIC_ARM_DOORBELL_0_IRQ    (1 << 2)
+#define RPI_BASIC_ARM_DOORBELL_1_IRQ    (1 << 3)
+#define RPI_BASIC_GPU_0_HALTED_IRQ      (1 << 4)
+#define RPI_BASIC_GPU_1_HALTED_IRQ      (1 << 5)
+#define RPI_BASIC_ACCESS_ERROR_1_IRQ    (1 << 6)
+#define RPI_BASIC_ACCESS_ERROR_0_IRQ    (1 << 7)
+
+#endif

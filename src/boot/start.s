@@ -65,7 +65,7 @@ _reset:
     MSR     CPSR_c, #(CPSR_SYS_MODE | CPSR_IRQ_DISABLE | CPSR_FIQ_DISABLE)
     MOV     sp, #SYS_STACK_TOP
 
-    BL notmain
+    BL cstartup
 _hang: B _hang
 
 .globl _enable_interrupts
@@ -80,3 +80,22 @@ _irq:
     BL      c_irq_handler
     POP     {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
     SUBS    pc, lr, #4
+
+.globl _get_stack_pointer
+_get_stack_pointer:
+    /* Return the stack pointer value */
+    str     sp, [sp]
+    ldr     r0, [sp]
+
+    /* Return from the function */
+    mov     pc, lr
+    
+.globl GET32
+GET32:
+    ldr r0,[r0]
+    bx lr
+
+.globl PUT32
+PUT32:
+    str r1,[r0]
+    bx lr

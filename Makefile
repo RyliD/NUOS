@@ -18,11 +18,9 @@ IMAGE   = $(BINDIR)/$(APP_NAME).img
 NM      = $(BINDIR)/$(APP_NAME).nm
 LIST    = $(BINDIR)/$(APP_NAME).list
 
-CCINC   = -I$(OBJDIR)
-APP_DEP = 
-#$(SRCDIR)/rpi-interrupts.h
+CCINC   = -I$(SRCDIR)/include -I$(SRCDIR)/arch/pi/include -I$(OBJDIR)
 
-CCFLAGS = -g -c -O0 -DRPI2 -nostartfiles -o$@
+CCFLAGS = -c -O0 -DRPI2 -nostartfiles -o$@
 
 ASMFLAGS = -o$@
 
@@ -42,19 +40,29 @@ $(IMAGE) : $(ELF)
     
 $(ELF) : $(BINDIR) \
 	./$(LINKER) \
-	$(OBJDIR)/start.o \
-	$(OBJDIR)/notmain.o \
-	$(OBJDIR)/irq.o \
+	$(OBJDIR)/boot/start.o \
+	$(OBJDIR)/boot/irq.o \
+	$(OBJDIR)/boot/cstartup.o \
+	$(OBJDIR)/kernel.o \
 	$(OBJDIR)/memory.o \
 	$(OBJDIR)/processor.o \
-	$(OBJDIR)/uart.o
+	$(OBJDIR)/rpi-armtimer.o \
+	$(OBJDIR)/rpi-gpio.o \
+	$(OBJDIR)/rpi-irq.o \
+	$(OBJDIR)/rpi-uart.o \
+	$(OBJDIR)/syscall.o
 	$(LINK) \
-	$(OBJDIR)/start.o \
-	$(OBJDIR)/notmain.o \
-	$(OBJDIR)/irq.o \
+	$(OBJDIR)/boot/start.o \
+	$(OBJDIR)/boot/irq.o \
+	$(OBJDIR)/boot/cstartup.o \
+	$(OBJDIR)/kernel.o \
 	$(OBJDIR)/memory.o \
 	$(OBJDIR)/processor.o \
-	$(OBJDIR)/uart.o \
+	$(OBJDIR)/rpi-armtimer.o \
+	$(OBJDIR)/rpi-gpio.o \
+	$(OBJDIR)/rpi-irq.o \
+	$(OBJDIR)/rpi-uart.o \
+	$(OBJDIR)/syscall.o \
 	$(LINKFLAGS)
 
 $(BINDIR): 
@@ -63,22 +71,45 @@ $(BINDIR):
 $(OBJDIR): 
 	mkdir $(OBJDIR)
 
-$(OBJDIR)/start.o: $(SRCDIR)/boot/start.s $(OBJDIR)
+$(OBJDIR)/boot: 
+	mkdir $(OBJDIR)/boot
+
+# boot
+$(OBJDIR)/boot/start.o: $(SRCDIR)/boot/start.s $(OBJDIR) $(OBJDIR)/boot
 	$(ASM) $(ASMFLAGS) $<
 
-$(OBJDIR)/irq.o: $(SRCDIR)/boot/irq.c $(APP_DEP) $(OBJDIR)
+$(OBJDIR)/boot/irq.o: $(SRCDIR)/boot/irq.c $(OBJDIR) $(OBJDIR)/boot
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)/notmain.o: $(SRCDIR)/boot/notmain.c $(APP_DEP) $(OBJDIR)
+$(OBJDIR)/boot/cstartup.o: $(SRCDIR)/boot/cstartup.c $(OBJDIR) $(OBJDIR)/boot
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)/memory.o: $(SRCDIR)/memory/memory.c $(APP_DEP) $(OBJDIR)
+$(OBJDIR)/kernel.o: $(SRCDIR)/kernel.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)/processor.o: $(SRCDIR)/processor/processor.c $(APP_DEP) $(OBJDIR)
+# memory
+$(OBJDIR)/memory.o: $(SRCDIR)/memory/memory.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)/uart.o: $(SRCDIR)/device/uart.c $(APP_DEP) $(OBJDIR)
+# processor
+$(OBJDIR)/processor.o: $(SRCDIR)/processor/processor.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+
+# pi
+$(OBJDIR)/rpi-armtimer.o: $(SRCDIR)/arch/pi/rpi-armtimer.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+    
+$(OBJDIR)/rpi-gpio.o: $(SRCDIR)/arch/pi/rpi-gpio.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+
+$(OBJDIR)/rpi-irq.o: $(SRCDIR)/arch/pi/rpi-irq.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+
+$(OBJDIR)/rpi-uart.o: $(SRCDIR)/arch/pi/rpi-uart-mini.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+
+# lib
+$(OBJDIR)/syscall.o: $(SRCDIR)/syscall.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
 clean:
