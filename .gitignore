@@ -4,6 +4,7 @@
 *.stackdump
 /bin
 /obj
+/.vscode
 
 *.userprefs
 *~
