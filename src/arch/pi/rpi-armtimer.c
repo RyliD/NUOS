@@ -7,17 +7,19 @@
     Chapter 14
     Timer (ARM side)
 */
-#define RPI_ARMTIMER_BASE                   0x3F00B000      // RPI_PERIPHERAL_BASE + 0xB000
+#define RPI_ARMTIMER_BASE                   0x3F00B400      // RPI_PERIPHERAL_BASE + 0xB400
 
-#define RPI_ARMTIMER_Load                   RPI_ARMTIMER_BASE + 0x400
-#define RPI_ARMTIMER_Value                  RPI_ARMTIMER_BASE + 0x404
-#define RPI_ARMTIMER_Control                RPI_ARMTIMER_BASE + 0x408
-#define RPI_ARMTIMER_IRQClear               RPI_ARMTIMER_BASE + 0x40C
-#define RPI_ARMTIMER_RAWIRQ                 RPI_ARMTIMER_BASE + 0x410
-#define RPI_ARMTIMER_MaskedIRQ              RPI_ARMTIMER_BASE + 0x414
-#define RPI_ARMTIMER_Reload                 RPI_ARMTIMER_BASE + 0x418
-#define RPI_ARMTIMER_PreDivider             RPI_ARMTIMER_BASE + 0x41C
-#define RPI_ARMTIMER_FreeRunningCounter     RPI_ARMTIMER_BASE + 0x420
+struct rpi_armtimer {
+    unsigned int Load;                  // 0x3F00B400
+    unsigned int Value;                 // 0x3F00B404
+    unsigned int Control;               // 0x3F00B408
+    unsigned int IRQClear;              // 0x3F00B40C
+    unsigned int RAWIRQ;                // 0x3F00B410
+    unsigned int MaskedIRQ;             // 0x3F00B414
+    unsigned int Reload;                // 0x3F00B418
+    unsigned int PreDivider;            // 0x3F00B41C
+    unsigned int FreeRunningCounter;    // 0x3F00B420
+};
 
 #define RPI_ARMTIMER_CTRL_23BIT             ( 1 << 1 )
 
@@ -31,11 +33,13 @@
 #define RPI_ARMTIMER_CTRL_ENABLE            ( 1 << 7 )
 #define RPI_ARMTIMER_CTRL_DISABLE           ( 0 << 7 )
 
+static volatile struct rpi_armtimer * const armtimer = 
+    (volatile struct rpi_armtimer*)RPI_ARMTIMER_BASE;
+
 void armtimer_irq_handler(void)
 {
     static int lit = 0;
-    _put32(RPI_ARMTIMER_IRQClear, 1);
-    //_put32(0x3F00B40C, 1);
+    armtimer->IRQClear = 1;
 
     if( lit ) {
         //_put32(GPCLR1, RPI_GPIO_FSEL0_05_OUTPUT);
@@ -58,12 +62,12 @@ void init_arm_timer(void)
 
     /* Setup the system timer interrupt */
     /* Timer frequency = Clk/256 * 0x400 */
-    _put32(RPI_ARMTIMER_Load, 0x400);
+    armtimer->Load = 0x400;
 
     /* Setup the ARM Timer */
-    _put32(RPI_ARMTIMER_Control,
+    armtimer->Control = 
             RPI_ARMTIMER_CTRL_23BIT |
             RPI_ARMTIMER_CTRL_ENABLE |
             RPI_ARMTIMER_CTRL_INT_ENABLE |
-            RPI_ARMTIMER_CTRL_PRESCALE_256);
+            RPI_ARMTIMER_CTRL_PRESCALE_256;
 }
