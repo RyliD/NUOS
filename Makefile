@@ -110,7 +110,7 @@ $(OBJDIR)/rpi-gpio.o: $(SRCDIR)/arch/pi/rpi-gpio.c $(OBJDIR)
 $(OBJDIR)/rpi-irq.o: $(SRCDIR)/arch/pi/rpi-irq.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
-$(OBJDIR)/rpi-uart.o: $(SRCDIR)/arch/pi/rpi-uart-mini.c $(OBJDIR)
+$(OBJDIR)/rpi-uart.o: $(SRCDIR)/arch/pi/rpi-uart.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
 # lib

@@ -10,4 +10,10 @@ extern unsigned int _get_stack_pointer();
 extern unsigned int _get32(unsigned int);
 extern void _put32(unsigned int, unsigned int);
 
+char read_char();
+
+void write_char(char c);
+void write_hex(int i);
+void write_string(char* c, int len);
+
 #endif
