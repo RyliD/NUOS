@@ -1,3 +1,4 @@
+#include "debug-write.h"
 #include "functions.h"
 #include "irq.h"
 #include "rpi-base.h"
@@ -45,14 +46,14 @@ void armtimer_irq_handler(void)
         //_put32(GPCLR1, RPI_GPIO_FSEL0_05_OUTPUT);
         _put32(0x3F20002C, (1 << 15)); 
         lit = 0;
-        //write_string("off ", 4);
-        write_string("-", 1);
+        //debug_write_string("off ", 4);
     } else {
         //_put32(GPSET1, RPI_GPIO_FSEL0_05_OUTPUT);
         _put32(0x3F200020, (1 << 15));
         lit = 1;
-        //write_string("on ", 3);
+        //debug_write_string("on ", 3);
     }
+    debug_write_string("-", 1);
 }
 
 void init_arm_timer(void)

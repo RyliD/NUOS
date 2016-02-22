@@ -44,6 +44,7 @@ $(ELF) : $(BINDIR) \
 	$(OBJDIR)/irq.o \
 	$(OBJDIR)/swi.o \
 	$(OBJDIR)/cstartup.o \
+	$(OBJDIR)/debug-write.o \
 	$(OBJDIR)/kernel.o \
 	$(OBJDIR)/memory.o \
 	$(OBJDIR)/processor.o \
@@ -57,6 +58,7 @@ $(ELF) : $(BINDIR) \
 	$(OBJDIR)/irq.o \
 	$(OBJDIR)/swi.o \
 	$(OBJDIR)/cstartup.o \
+	$(OBJDIR)/debug-write.o \
 	$(OBJDIR)/kernel.o \
 	$(OBJDIR)/memory.o \
 	$(OBJDIR)/processor.o \
@@ -91,6 +93,9 @@ $(OBJDIR)/cstartup.o: $(SRCDIR)/boot/cstartup.c $(OBJDIR)
 
 
 $(OBJDIR)/kernel.o: $(SRCDIR)/kernel/kernel.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+
+$(OBJDIR)/debug-write.o: $(SRCDIR)/kernel/debug-write.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
 $(OBJDIR)/syscall.o: $(SRCDIR)/kernel/syscall.c $(OBJDIR)
