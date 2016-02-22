@@ -7,58 +7,58 @@ void c_swi_handler(unsigned number, unsigned *regs)
 
     switch(number){
         case SYSCALL_NONE:
-            _none();
+            sys_none();
             break;
         case SYSCALL_EXIT:
-            //_exit((int)regs[0]);
+            //sys_exit((int)regs[0]);
             break;
         case SYSCALL_EXECVE:
-            _execve((char*)regs[0], (char**)regs[1], (char**)regs[2]);
+            sys_execve((char*)regs[0], (char**)regs[1], (char**)regs[2]);
             break;
         case SYSCALL_FORK:
-            _fork();
+            sys_fork();
             break;
         case SYSCALL_GETPID:
-            _getpid();
+            sys_getpid();
             break;
         case SYSCALL_KILL:
-            _kill((int)regs[0], (int)regs[1]);
+            sys_kill((int)regs[0], (int)regs[1]);
             break;
         case SYSCALL_TIMES:
-            //_times((struct tms)regs[0]);
+            //sys_times((struct tms)regs[0]);
             break;
         case SYSCALL_OPEN:
-            _open((char*)regs[0], (int)regs[1], (int)regs[2]);
+            sys_open((char*)regs[0], (int)regs[1], (int)regs[2]);
             break;
         case SYSCALL_CLOSE:
-            _close((int)regs[0]);
+            sys_close((int)regs[0]);
             break;
         case SYSCALL_ISATTY:
-            _isatty((int)regs[0]);
+            sys_isatty((int)regs[0]);
             break;
         case SYSCALL_STAT:
-            //_stat((char*)regs[0], (struct stat)regs[1]);
+            //sys_stat((char*)regs[0], (struct stat)regs[1]);
             break;
         case SYSCALL_FSTAT:
-            //_fstat((int)regs[0], (struct stat)regs[1]);
+            //sys_fstat((int)regs[0], (struct stat)regs[1]);
             break;
         case SYSCALL_LSEEK:
-            _lseek((int)regs[0], (int)regs[1], (int)regs[2]);
+            sys_lseek((int)regs[0], (int)regs[1], (int)regs[2]);
             break;
         case SYSCALL_READ:
-            _read((int)regs[0], (char*)regs[1], (int)regs[2]);
+            sys_read((int)regs[0], (char*)regs[1], (int)regs[2]);
             break;
         case SYSCALL_WRITE:            
-            _write((int)regs[0], (char*)regs[1], (int)regs[2]);
+            sys_write((int)regs[0], (char*)regs[1], (int)regs[2]);
             break;
         case SYSCALL_LINK:
-            _link();
+            sys_link();
             break;
         case SYSCALL_UNLINK:
-            _unlink((char*)regs[0]);
+            sys_unlink((char*)regs[0]);
             break;
         case SYSCALL_SBRK:
-            _sbrk((int)regs[0]);
+            sys_sbrk((int)regs[0]);
             break;
         default:
             break;

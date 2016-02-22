@@ -25,24 +25,24 @@ void c_swi_handler();
 #define SYSCALL_UNLINK      16
 #define SYSCALL_SBRK        17
 
-void sc_none(void);
-void sc_exit(int status);
-int sc_execve(char *name, char **argv, char **env);
-int sc_fork(void);
-int sc_getpid(void);
-int sc_kill(int pid, int sig);
-clock_t sc_times(struct tms *buf);
-int sc_open(const char *name, int flags, int mode);
-int sc_close(int file);
-int sc_isatty(int file);
-int sc_stat(const char *file, struct stat *st);
-int sc_fstat(int file, struct stat *st);
-int sc_lseek(int file, int ptr, int dir);
-int sc_read(int file, char *ptr, int len);
-int sc_write(int file, char *ptr, int len);
-int sc_link(void);
-int sc_unlink(char *name);
-caddr_t sc_sbrk(int incr);
+void sys_none(void);
+void sys_exit(int status);
+int sys_execve(char *name, char **argv, char **env);
+int sys_fork(void);
+int sys_getpid(void);
+int sys_kill(int pid, int sig);
+clock_t sys_times(struct tms *buf);
+int sys_open(const char *name, int flags, int mode);
+int sys_close(int file);
+int sys_isatty(int file);
+int sys_stat(const char *file, struct stat *st);
+int sys_fstat(int file, struct stat *st);
+int sys_lseek(int file, int ptr, int dir);
+int sys_read(int file, char *ptr, int len);
+int sys_write(int file, char *ptr, int len);
+int sys_link(void);
+int sys_unlink(char *name);
+caddr_t sys_sbrk(int incr);
 
 void user_none(void);
 void user_exit(int status);
