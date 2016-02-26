@@ -1,5 +1,5 @@
 #include "init.h"
-
+#include "debug-write.h"
 extern int __bss_start__;
 extern int __bss_end__;
 
@@ -17,7 +17,9 @@ void clear_BSS()
 void cstartup( unsigned int r0, unsigned int r1, unsigned int r2 )
 {
     clear_BSS();
-        
+    
+	
+    init_uart();
     // other init stuff
     init_irq();
     init_memory();
@@ -26,7 +28,6 @@ void cstartup( unsigned int r0, unsigned int r1, unsigned int r2 )
     // devices
     init_gpio();
     init_arm_timer();
-    init_uart();
     
     /* Enable interrupts! */
     _enable_interrupts();

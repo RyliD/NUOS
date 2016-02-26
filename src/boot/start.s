@@ -82,6 +82,7 @@ _enable_interrupts:
 
 _irq_vector:
     PUSH    {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
+    MOV     r0, sp
     BL      c_irq_handler
     POP     {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
     SUBS    pc, lr, #4
@@ -107,6 +108,24 @@ _get_stack_pointer:
     /* Return from the function */
     mov     pc, lr
     
+.globl _set_stack_pointer
+_set_stack_pointer:
+	mov 	sp, r0
+	bx	lr
+
+.globl _get_frame_pointer
+_get_frame_pointer:
+    /* Return the stack pointer value */
+    mov r0, fp
+
+    /* Return from the function */
+    bx lr
+    
+.globl _set_frame_pointer
+_set_frame_pointer:
+	mov 	fp, r0
+	bx	lr
+	
 .globl _get32
 _get32:
     ldr r0,[r0]
@@ -116,3 +135,18 @@ _get32:
 _put32:
     str r1,[r0]
     bx lr
+
+	
+.globl _get_all_registers
+_get_all_registers:
+	/* Store registers onto stack*/
+	PUSH    {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr} 
+	/* Put stack pointer into return register */
+	MOV     r0, sp
+	/* Return */
+	bx	lr
+	
+.globl _clean_up_for_get_all_registers
+_clean_up_for_get_all_registers:
+	/* Clean up the stuff left on the stack from _clean_up_for_get_all_registers */
+	/* Pop wont work because it will change all of the current reg values, maybe just decrement sp */

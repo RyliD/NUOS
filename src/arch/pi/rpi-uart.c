@@ -3,7 +3,7 @@
 #include "irq.h"
 #include "rpi-gpio.h"
 #include "types.h"
-
+#include "debug-write.h"
 /* Lots of code came from the examples in Xinu OS files /device/uart-pl011/* */
 
 #define RPI_UART_BASE   0x3F201000      // RPI_PERIPHERAL_BASE + 0x201000
@@ -39,6 +39,7 @@ void uart_irq_handler()
 
 void init_uart()
 {
+	
     unsigned int ra;
     
     // Disable UART interrupts
