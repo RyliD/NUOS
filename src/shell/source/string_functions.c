@@ -86,15 +86,15 @@ void string_copy (char * p_source_s, char * p_destination_s, long p_length_l) {
 long string_contains_c (char * p_str1_s, char p_str2_c, long p_length_l) {
     
 	/*--------------------------------------------------------------------------------------|
-	|	    Copy Content of One String to Second					|
+	|	    Check if a string contains specific character				|
 	|--------------------------------------------------------------------------------------*/
 	long 	x 	= 0;
 	
-	while(x < p_length_l) {
-		if(p_str1_s[x] != p_str2_c) {
-			return FALSE;	
+	while ( x < p_length_l ) {
+		if ( p_str1_s[x] == p_str2_c ) {
+			return TRUE;	
 		}
 		x++;
 	}
-	return TRUE;
+	return FALSE;
 }
