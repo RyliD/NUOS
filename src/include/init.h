@@ -6,6 +6,7 @@ void clear_BSS();
 void init_irq();
 void init_memory();
 void init_processor();
+void init_devices();
 
 void init_gpio();
 void init_arm_timer();
