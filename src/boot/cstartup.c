@@ -24,6 +24,7 @@ void cstartup( unsigned int r0, unsigned int r1, unsigned int r2 )
     init_processor();
     
     // devices
+    init_devices();
     init_gpio();
     init_arm_timer();
     init_uart();

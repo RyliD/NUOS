@@ -1,3 +1,5 @@
+#include "init.h"
+
 typedef struct device
 {
 	int id;
@@ -6,3 +8,7 @@ typedef struct device
 	int (*write)();
 	int (*close)();
 };
+
+void init_devices() {
+	//create the device table and register devices
+}
