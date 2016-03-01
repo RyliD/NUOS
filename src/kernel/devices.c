@@ -1,4 +1,5 @@
 #include "init.h"
+#include "uart_device.c"
 
 typedef struct device
 {
@@ -11,4 +12,18 @@ typedef struct device
 
 void init_devices() {
 	//create the device table and register devices
+
+	//currently we want to support 2 devices, uart and sd card
+	struct device devices[2];
+
+	//uart entry
+
+
 }
+
+struct device uart = {
+		.open = uart_read(),
+		.write = uart_write(),
+		.open = null,
+		.close = null
+};
