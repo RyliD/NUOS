@@ -20,7 +20,7 @@ void cstartup( unsigned int r0, unsigned int r1, unsigned int r2 )
         
     // other init stuff
     init_irq();
-    init_memory();
+    //init_memory();
     init_processor();
     
     // devices

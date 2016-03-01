@@ -116,3 +116,9 @@ _get32:
 _put32:
     str r1,[r0]
     bx lr
+.globl _invalidate_tlbs
+_invalidate_tlbs:
+    mov r2,#0
+    mcr p15,0,r2,c8,c7,0  ;@ invalidate tlb
+    mcr p15,0,r2,c7,c10,4 ;@ DSB ??
+    bx lr
