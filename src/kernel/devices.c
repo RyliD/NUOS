@@ -17,12 +17,11 @@ void init_devices() {
 	struct device devices[2];
 
 	//uart entry
-
-
+	devices[0] = uart;
 }
 
 struct device uart = {
-		.open = uart_read(),
+		.read = uart_read(),
 		.write = uart_write(),
 		.open = null,
 		.close = null
