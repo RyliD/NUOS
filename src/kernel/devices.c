@@ -1,5 +1,6 @@
 #include "init.h"
 #include "uart_device.c"
+#include "mmc_device.c"
 
 typedef struct device
 {
@@ -18,11 +19,21 @@ void init_devices() {
 
 	//uart entry
 	devices[0] = uart;
+
+	//flash card (mmc) entry
+	device[1] = mmc;
 }
 
 struct device uart = {
+		.open = null,
 		.read = uart_read(),
 		.write = uart_write(),
-		.open = null,
 		.close = null
+};
+
+struct device mmc = {
+		.open = mmc_open(),
+		.read = mmc_read(),
+		.write = mmc_write(),
+		.close = mmc_close()
 };
