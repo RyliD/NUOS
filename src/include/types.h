@@ -11,5 +11,10 @@
     #define False 0
     #define FALSE 0
 #endif
+#ifndef null
+#define null 0
+    #define null 0
+    #define NULL 0
+#endif
 
 #endif

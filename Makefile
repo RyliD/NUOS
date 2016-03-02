@@ -48,6 +48,7 @@ $(ELF) : $(BINDIR) \
 	$(OBJDIR)/kernel.o \
 	$(OBJDIR)/memory.o \
 	$(OBJDIR)/processor.o \
+	$(OBJDIR)/devices.o \
 	$(OBJDIR)/syscall.o \
 	$(OBJDIR)/rpi-armtimer.o \
 	$(OBJDIR)/rpi-gpio.o \
@@ -62,6 +63,7 @@ $(ELF) : $(BINDIR) \
 	$(OBJDIR)/kernel.o \
 	$(OBJDIR)/memory.o \
 	$(OBJDIR)/processor.o \
+	$(OBJDIR)/devices.o \
 	$(OBJDIR)/syscall.o \
 	$(OBJDIR)/rpi-armtimer.o \
 	$(OBJDIR)/rpi-gpio.o \
@@ -107,6 +109,10 @@ $(OBJDIR)/memory.o: $(SRCDIR)/kernel/memory.c $(OBJDIR)
 
 # processor
 $(OBJDIR)/processor.o: $(SRCDIR)/kernel/processor.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+
+# devices
+$(OBJDIR)/devices.o: $(SRCDIR)/kernel/devices.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
 # pi

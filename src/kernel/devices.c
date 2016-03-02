@@ -1,15 +1,7 @@
 #include "init.h"
-#include "uart_device.c"
-#include "mmc_device.c"
-
-typedef struct device
-{
-	int id;
-	int (*open)();
-	int (*read)();
-	int (*write)();
-	int (*close)();
-};
+#include "device.h"
+#include "debug-write.h"
+#include "types.h"
 
 void init_devices() {
 	//create the device table and register devices
@@ -18,22 +10,47 @@ void init_devices() {
 	struct device devices[2];
 
 	//uart entry
-	devices[0] = uart;
+//	devices[0] = device{
+//			null,
+//			&uart_read,
+//			&uart_write,
+//			null
+//	};
+//
+//	//flash card (mmc) entry
+//	devices[1] = device{
+//			&mmc_open,
+//			&mmc_read,
+//			&mmc_write,
+//			&mmc_close
+//	};
 
-	//flash card (mmc) entry
-	device[1] = mmc;
+	devices[0].write();
 }
 
-struct device uart = {
-		.open = null,
-		.read = uart_read(),
-		.write = uart_write(),
-		.close = null
-};
+//actual methods
 
-struct device mmc = {
-		.open = mmc_open(),
-		.read = mmc_read(),
-		.write = mmc_write(),
-		.close = mmc_close()
-};
+int uart_write() {
+	debug_write_string("hi", 2);
+	return 0;
+}
+
+int uart_read() {
+	return 0;
+}
+
+int mmc_write() {
+	return 0;
+}
+
+int mmc_read() {
+	return 0;
+}
+
+int mmc_open() {
+	return 0;
+}
+
+int mmc_close() {
+	return 0;
+}
