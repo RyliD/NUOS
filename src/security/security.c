@@ -38,17 +38,6 @@ int security_file_open(struct file *file, const struct credentials *cred)
         return ret;
     }
     return ERROR;
-
-int security_file_open(struct file *file, const struct credentials *cred) 
-{
-    int ret;
-    ret = security_ops->file_open(file, cred);
-    if (ret)
-        return ret;
-    //Notify?
-    
-    //TODO: Unnecessary when notify is implemented
-    return ret;
 }
 
 int security_file_close(struct file *file, const struct credentials *cred) 
