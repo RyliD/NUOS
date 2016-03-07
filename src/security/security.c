@@ -11,11 +11,7 @@ int security_init()
 
 int register_security(struct security_operations *ops) 
 {
-<<<<<<< HEAD
     if (security_ops == null)
-=======
-    if (security_ops != null)
->>>>>>> 961eacf5e11e14eb314301e4d0b28492e7bc05c6
     {
         security_ops = ops;
         return 0;
@@ -23,7 +19,6 @@ int register_security(struct security_operations *ops)
     return ERROR;
 }
 
-<<<<<<< HEAD
 int unregister_security(struct security_operations *ops)
 {
     security_ops = null;
@@ -43,7 +38,7 @@ int security_file_open(struct file *file, const struct credentials *cred)
         return ret;
     }
     return ERROR;
-=======
+
 int security_file_open(struct file *file, const struct credentials *cred) 
 {
     int ret;
@@ -54,13 +49,11 @@ int security_file_open(struct file *file, const struct credentials *cred)
     
     //TODO: Unnecessary when notify is implemented
     return ret;
->>>>>>> 961eacf5e11e14eb314301e4d0b28492e7bc05c6
 }
 
 int security_file_close(struct file *file, const struct credentials *cred) 
 {
     int ret;
-<<<<<<< HEAD
     if (security_ops != null) 
     {
         ret = security_ops->file_close(file, cred);
@@ -72,13 +65,4 @@ int security_file_close(struct file *file, const struct credentials *cred)
         return ret;
     }
     return ERROR;
-=======
-    ret = security_ops->file_close(file, cred);
-    if (ret)
-        return ret;
-    //Notify?
-    
-    //TODO: Unnecessary when notify is implemented
-    return ret;
->>>>>>> 961eacf5e11e14eb314301e4d0b28492e7bc05c6
 }
