@@ -2,7 +2,8 @@
 CSC390 Operating Systems
 
 
-- Installation Instructions for build on windows
+## Installation Instructions for build
+#### Windows
 
 [Installers Blake Used](https://onedrive.live.com/redir?resid=C9BED2494B9702A!63762&authkey=!ABqKlNe5m71Tu2A&ithint=file%2czip)
 
@@ -94,3 +95,16 @@ CSC390 Operating Systems
      2.  PLEASE DONT BREAK YOUR PATH.  It is important for windows..
 7. Pull the code.
 8. Run make from the command line
+
+#### Linux
+1. Using the package manager tool for your distro, search for gcc-arm-none-eabi (arm-none-eabi-gcc on Arch) and install
+2. Pull the code and `cd` to the folder containing NUOS
+3. Run `make`
+
+#### OS X
+1. Download [gcc-arm-none-eabi](https://launchpad.net/gcc-arm-embedded/5.0/5-2015-q4-major/+download/gcc-arm-none-eabi-5_2-2015q4-20151219-mac.tar.bz2) tarball (original page [here](https://launchpad.net/gcc-arm-embedded))
+2. Run `tar -xvzf /path/to/tarball`
+3. Add the extracted folder's bin directory to your path `export PATH=${PATH}:/path/to/gcc-arm-none-eabi-version/bin` (you'll probably want to add this line to your .bash_profile)
+4. Pull the code and `cd` to the folder containing NUOS
+5. Run `make`
+6. If things break, find Garrett
