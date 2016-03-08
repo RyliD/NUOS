@@ -8,6 +8,6 @@ typedef struct device
     int (*read)();
     int (*write)();
     int (*close)();
-};
+} device;
 
 #endif
