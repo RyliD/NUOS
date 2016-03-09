@@ -2,7 +2,7 @@
 
 void init_memory()
 {
-    /*
+    
     static volatile __attribute__ ((aligned (0x4000))) unsigned PageTable[4096];
     
     unsigned base;
@@ -35,12 +35,12 @@ void init_memory()
     // set TTBR0 (page table walk inner and outer non-cacheable, non-shareable memory)
     asm volatile ("mcr p15, 0, %0, c2, c0, 0" :: "r" (0 | (unsigned) &PageTable));
 
-    //asm volatile ("isb" ::: "memory");
+    asm volatile ("isb" ::: "memory");
 
     // enable MMU, caches and branch prediction in SCTLR
     unsigned mode;
     asm volatile ("mrc p15, 0, %0, c1, c0, 0" : "=r" (mode));
     mode |= 0x1805;
     asm volatile ("mcr p15, 0, %0, c1, c0, 0" :: "r" (mode) : "memory");
-    */
+    
 }
