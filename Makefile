@@ -20,7 +20,7 @@ LIST    = $(BINDIR)/$(APP_NAME).list
 
 CCINC   = -I$(SRCDIR)/include -I$(SRCDIR)/arch/pi/include -I$(OBJDIR)
 
-CCFLAGS = -c -O0 -DRPI2 -nostartfiles -o$@
+CCFLAGS = -c -O0 -DRPI2 -nostartfiles  -march=armv7-a -o$@
 
 ASMFLAGS = -o$@
 
