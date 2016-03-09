@@ -35,5 +35,5 @@ void string_copy (char *, char *, long);
 
 long string_contains_c (char *, char, long);
 
-
+void enlarge_array(char*);
 #endif

@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------------------------|
 |		string_functions.h								|
 |----------------------------------------------------------------------------------------------*/
-#include "string_functions.h"
+#include "../headers/string_functions.h"
 
 
 void string_tokenize(char * source) {
@@ -97,4 +97,15 @@ long string_contains_c (char * p_str1_s, char p_str2_c, long p_length_l) {
 		x++;
 	}
 	return FALSE;
+}
+
+void enlarge_array(char* p_source_s) {
+	
+	/*--------------------------------------------------------------------------------------|
+	|	    double the size of the array				|
+	|--------------------------------------------------------------------------------------*/
+	size_t size_of_string = sizeof(p_source_s) / sizeof(p_source_s[0]);
+	char * enlarged_array = char[size_of_string * 2];
+	string_copy(p_source_s, enlarged_array, size_of_string);
+	p_source_s = enlarged_array;
 }
