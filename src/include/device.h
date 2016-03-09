@@ -9,4 +9,6 @@ typedef struct
     int (*close)();
 } device;
 
+extern device devices[];
+
 #endif

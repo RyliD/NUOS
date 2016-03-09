@@ -3,10 +3,13 @@
 #include "debug-write.h"
 #include "types.h"
 
+/**
+ * Function Implementations
+ */
 
 //UART Functions
 int uart_write() {
-	debug_write_string("hi", 2);
+	debug_write_string("xyzabc", 12);
 	return 0;
 }
 
@@ -31,6 +34,10 @@ int mmc_close() {
 	return 0;
 }
 
+int uart_init() {
+
+}
+
 
 void init_devices() {
 	//create the device table and register devices
@@ -46,6 +53,9 @@ void init_devices() {
 			null
 	};
 
+	uart_init();
+	//init the uart device
+
 	//flash card (mmc) entry
 	devices[1] = (device) {
 			&mmc_open,
@@ -57,6 +67,3 @@ void init_devices() {
 	devices[0].write();
 }
 
-/**
- * Function Implementations
- */

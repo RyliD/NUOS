@@ -1,7 +1,7 @@
 #ifndef IRQ_H
 #define IRQ_H
 
-typedef (*interrupt_handler_t)(void);
+typedef int (*interrupt_handler_t)(void);
 extern interrupt_handler_t interrupt_vector[];
 
 void c_irq_handler();
