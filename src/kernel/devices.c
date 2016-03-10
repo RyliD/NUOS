@@ -25,7 +25,7 @@ void init_devices() {
 //			&mmc_close
 //	};
 
-	devices[0].write();
+	// devices[0].write();
 }
 
 //actual methods
