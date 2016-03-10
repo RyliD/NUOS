@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+typedef unsigned bool;
+
 #ifndef true
     #define true 1
     #define True 1

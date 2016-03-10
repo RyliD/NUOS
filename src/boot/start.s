@@ -10,12 +10,12 @@
 .equ    CPSR_SYS_MODE,       0x1F
 
 .equ    USR_STACK_TOP,       0x4000
-.equ    FIQ_STACK_TOP,       0x4000
+.equ    FIQ_STACK_TOP,       0x5000
 .equ    IRQ_STACK_TOP,       0x8000
-.equ    SVC_STACK_TOP,       0x8000000
-.equ    ABT_STACK_TOP,       0x4000
-.equ    UND_STACK_TOP,       0x4000
-.equ    SYS_STACK_TOP,       0x4000
+.equ    SVC_STACK_TOP,       0x800000
+.equ    ABT_STACK_TOP,       0x6000
+.equ    UND_STACK_TOP,       0x7000
+.equ    SYS_STACK_TOP,       0x0F000000
 
 .text
 .code 32
@@ -82,11 +82,22 @@ _enable_interrupts:
 
 _irq_vector:
     PUSH    {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
-    MOV     r0, sp
     BL      c_irq_handler
+	MOV     r0, sp
+	BL		_schedule
     POP     {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,lr}
     SUBS    pc, lr, #4
 
+_schedule:
+	PUSH	{lr}
+	MOV		r1, sp
+	BL		c_schedule
+	pop 	{lr}
+	bx		lr
+	; POP		{lr}
+	; MOV		sp, r0
+	; MOV		pc, lr
+	
 _swi_vector:
     STMFD   sp!, {r0-r12, lr}
     LDR     r0, [lr, #-4]
