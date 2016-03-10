@@ -1,6 +1,7 @@
 #include "irq.h"
 #include "debug-write.h"
 #include "functions.h"
+#include "processor.h"
 
 void init_irq(void)
 {
@@ -30,14 +31,21 @@ void register_interrupt_handler(int line, interrupt_handler_t handler)
     irq_enable_hw(line);
 }
 
-void c_irq_handler(unsigned* regs)
+void c_irq_handler()
 {
-	int i;
+	// int i;
 	// debug_write_char('a');
-	// for(i = 0; i < 9; i++) {
+	// debug_write_hex(regs);
+	// for(i = 0; i < 14; i++) {
+		// debug_write_hex(regs + (i));
+		// debug_write_string(" : ", 3);
 		// debug_write_hex(regs[i]);
+		// debug_write_string(" : ", 3);
+		// debug_write_hex(&(regs[i]));
+		// debug_write_string("\n", 1);
 	// }
 	
-    debug_write_hex(_get_stack_pointer());
+    // debug_write_hex(_get_stack_pointer());
     c_irq_handler_hw();
+
 }
