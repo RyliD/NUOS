@@ -16,7 +16,7 @@ extern void _put32(unsigned int, unsigned int);
 
 //Saves all registers to stack and returns a pointer
 //Values must be copied and then stack cleaned up
-extern unsigned int* _get_all_registers();
+extern unsigned int* _get_all_registers(unsigned* );
 extern void _clean_up_for_get_all_registers();
 
 #endif

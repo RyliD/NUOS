@@ -5,7 +5,7 @@
 
 #define LR 13
 #define REGISTERS 14
-#define TASKS 2
+#define TASKS 3
 #define STACK_SIZE 0x01000000
 #define END_STACK_ADDRESS 0x0F000000
 typedef struct {
@@ -17,7 +17,7 @@ typedef struct {
 } Task;
 
 typedef struct {
-	Task currentTask;
+	Task* currentTask;
 	unsigned numTasks;
 	unsigned maxTasks;
 	Task tasks[TASKS];
