@@ -31,6 +31,8 @@
 #define EMMC_SPI_INT_SPT	0xF0
 #define EMMC_SLOTISR_VER	0xFC
 
+#define WRITE_BLOCK 24
+
 //extern void memory_barrier();
 
 unsigned int mmio_read(unsigned int reg)
@@ -38,6 +40,11 @@ unsigned int mmio_read(unsigned int reg)
 	//memory_barrier();
 	return *(volatile unsigned int *)(reg);
 	//memory_barrier();
+}
+
+void mmio_write(unsigned int reg, unsigned int data)
+{
+	*(volatile unsigned int *)(reg) = data;
 }
 
 void sd_card_init()
@@ -57,3 +64,20 @@ void sd_card_init()
 	}
 }
 
+void sd_card_write(unsigned int value, unsigned int block_no)
+{
+	// 512 block size
+	unsigned int position = block_no * 512;
+	mmio_write(EMMC_BASE + EMMC_ARG1, position);
+	// write a one to this register to signify how many blocks we're writing
+	mmio_write(EMMC_BASE + EMMC_BLKSIZECNT, 1)
+	// write the data to the data register
+	mmio_write(EMMC_BASE + EMMC_DATA, value);
+	// set the command register
+	mmio_write(EMMC_BASE + EMMC_CMDTM, WRITE_BLOCK)
+	// wait for command complete interrupt 500000 is timer to wait
+	TIMEOUT_WAIT(mmio_read(EMMC_BASE + EMMC_INTERRUPT) & 0X8001, 500000)
+	//unsigned int irpts = mmio_read(EMMC_BASE + EMMC_INTERRUPT);
+	// Clear command complete slot_status
+	mmio_write(EMMC_BASE + EMMC_INTERRUPT, 0xffff0001);
+}
