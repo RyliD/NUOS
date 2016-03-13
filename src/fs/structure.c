@@ -1,17 +1,24 @@
 #include <include/fs.h>
 
-// it's just less to type.
-typedef unsigned int uint;
-typedef unsigned long ulong;
-
 struct inode {
     int id_num; // the "inode number"
     struct block_group *group;
+    struct super_block *owner_sb;
+
+    struct timespec last_access_time;
+    struct timespec last_modified_time;
+    struct timespec created_time;
 }
 
 struct inode_map {
     int inodes_in_use;
     // TODO: other properties to store here
+}
+
+// encapsulation of the time
+struct timespec {
+    uint millis;
+    ulong nanons;
 }
 
 // defines the ext2-like super_block to be used in our implemantation
@@ -40,7 +47,7 @@ struct super_block {
     ulong inode_bitmap;
 
     // TODO:
-    // string volume name
+    char *volume_name;
     // uuid
 }
 
@@ -53,9 +60,9 @@ struct directory_entry {
       // Every path should know where it came from.
       struct directory_entry *parent_dir;
 
-      // a transformation function that should be optimized for ARM
-      // this will be define in one location and assigned to each creation
-      // also, cheaper than including everything all the time.
+      /* a transformation function that should be optimized for ARM
+      this will be define in one location and assigned to each creation
+      also, cheaper than including everything all the time. */
       char *(*fully_qualified_name) (*struct path);
 }
 
