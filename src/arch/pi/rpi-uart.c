@@ -110,6 +110,8 @@ int uart_receive()
     // restore interrupts
     uart->UART_IMSC = uart_imsc;    
     
+	uart_send(c);
+
     return c;
 }
 

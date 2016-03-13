@@ -49,7 +49,7 @@ void armtimer_irq_handler(void)
         //debug_write_string("off ", 4);
     } else {
         //_put32(GPSET1, RPI_GPIO_FSEL0_05_OUTPUT);
-        _put32(0x3F200020, (1 << 15));
+       _put32(0x3F200020, (1 << 15));
         lit = 1;
         //debug_write_string("on ", 3);
     }

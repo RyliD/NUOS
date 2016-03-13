@@ -1,13 +1,14 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-typedef struct device
+typedef struct
 {
-    int id;
     int (*open)();
     int (*read)();
     int (*write)();
     int (*close)();
 } device;
+
+extern device devices[];
 
 #endif

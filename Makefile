@@ -49,6 +49,8 @@ $(ELF) : $(BINDIR) \
 	$(OBJDIR)/memory.o \
 	$(OBJDIR)/processor.o \
 	$(OBJDIR)/devices.o \
+	$(OBJDIR)/testDriver.o \
+	$(OBJDIR)/coreysd.o \
 	$(OBJDIR)/syscall.o \
 	$(OBJDIR)/rpi-armtimer.o \
 	$(OBJDIR)/rpi-gpio.o \
@@ -64,6 +66,8 @@ $(ELF) : $(BINDIR) \
 	$(OBJDIR)/memory.o \
 	$(OBJDIR)/processor.o \
 	$(OBJDIR)/devices.o \
+	$(OBJDIR)/testDriver.o \
+	$(OBJDIR)/coreysd.o \
 	$(OBJDIR)/syscall.o \
 	$(OBJDIR)/rpi-armtimer.o \
 	$(OBJDIR)/rpi-gpio.o \
@@ -128,6 +132,12 @@ $(OBJDIR)/rpi-irq.o: $(SRCDIR)/arch/pi/rpi-irq.c $(OBJDIR)
 $(OBJDIR)/rpi-uart.o: $(SRCDIR)/arch/pi/rpi-uart.c $(OBJDIR)
 	$(CC) $(CCFLAGS) $(CCINC) $<
 
+$(OBJDIR)/testDriver.o: $(SRCDIR)/arch/pi/testDriver.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+	
+$(OBJDIR)/coreysd.o: $(SRCDIR)/arch/pi/coreysd.c $(OBJDIR)
+	$(CC) $(CCFLAGS) $(CCINC) $<
+	
 clean:
 	-$(RM) $(BINDIR)/*.*
 	-$(RM) $(OBJDIR)/*.*

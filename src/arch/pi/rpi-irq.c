@@ -100,7 +100,7 @@ void c_irq_handler_hw(void)
     unsigned int irq2 = interrupt_controller->IRQ_pending_2;
     unsigned int irqb = interrupt_controller->IRQ_basic_pending;
     
-    int i, j;
+    unsigned int i, j;
     for (i = 0; i < 32; i++) {
         j = (1 << i);
         if ((j & irq1) != 0) 
