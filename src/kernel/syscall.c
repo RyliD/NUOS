@@ -56,7 +56,10 @@ int sys_fstat( int file, struct stat *st )
 int sys_isatty(int file) { return 1; }
 int sys_lseek(int file, int ptr, int dir) { return 0; }
 int sys_open( const char *name, int flags, int mode ) { return -1; }
-int sys_read( int file, char *ptr, int len ) { return 0; }
+int sys_read( int file, char *ptr, int len ) {
+	uart_receive();
+	return 0; 
+}
 int sys_stat( const char *file, struct stat *st )
 {
     st->st_mode = S_IFCHR;
