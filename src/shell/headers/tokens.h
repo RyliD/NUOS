@@ -15,6 +15,6 @@ struct params_token {
 
 struct instruction_token {
 	char * instruction_string;
-	void (*instruction_func)(void);
+	void (*instruction_func)(void);//the pointer to the function that knows how to run the command
 };
 #endif
