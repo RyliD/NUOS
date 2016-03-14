@@ -40,6 +40,7 @@ void cstartup( unsigned int r0, unsigned int r1, unsigned int r2 )
 
     // test methods
     sd_card_write(42, 100);
+    unsigned int sd_card_read(100);
 
     while(1) { }
 }
