@@ -68,7 +68,7 @@ void sd_card_init()
 
 void sd_card_write(unsigned int value, unsigned int block_no)
 {
-	unsigned int blksizecnt = 512 | 1 << 16
+	unsigned int blksizecnt = 512 | 1 << 16;
 	// 512 block size
 	debug_write_string("b", 1);
 	unsigned int position = block_no * 512;
@@ -79,8 +79,8 @@ void sd_card_write(unsigned int value, unsigned int block_no)
 	mmio_write(EMMC_BASE + EMMC_CMDTM, WRITE_BLOCK);
 	// wait for command complete interrupt 500000 is timer to wait
 	debug_write_string("c", 1);
-	TIMEOUT_WAIT(mmio_read(EMMC_BASE + EMMC_INTERRUPT) & 0X8001, 5);
-	//unsigned int irpts = mmio_read(EMMC_BASE + EMMC_INTERRUPT);
+	//TIMEOUT_WAIT(mmio_read(EMMC_BASE + EMMC_INTERRUPT) & 0X8001, 5);
+	unsigned int irpts = mmio_read(EMMC_BASE + EMMC_INTERRUPT);
 	// Clear command complete slot_status
 	debug_write_string("d", 1);
 	mmio_write(EMMC_BASE + EMMC_INTERRUPT, 0xffff0001);
@@ -90,7 +90,9 @@ void sd_card_write(unsigned int value, unsigned int block_no)
 
 unsigned int sd_card_read(unsigned int block_no)
 {
-	unsigned int blksizecnt = 512 | 1 << 16
+	debug_write_string("r", 1);
+
+	unsigned int blksizecnt = 512 | 1 << 16;
 	// 512 block size
 	unsigned int position = block_no * 512;
 	// set what block to read in register
@@ -99,11 +101,16 @@ unsigned int sd_card_read(unsigned int block_no)
 	mmio_write(EMMC_BASE + EMMC_BLKSIZECNT, blksizecnt);
 	// set the command
 	mmio_write(EMMC_BASE + EMMC_CMDTM, READ_SINGLE_BLOCK);
-	TIMEOUT_WAIT(mmio_read(EMMC_BASE + EMMC_INTERRUPT) & 0X8001, 500000);
-	//unsigned int irpts = mmio_read(EMMC_BASE + EMMC_INTERRUPT);
+	debug_write_string("e", 1);
+
+	//TIMEOUT_WAIT(mmio_read(EMMC_BASE + EMMC_INTERRUPT) & 0X8001, 500000);
+	unsigned int irpts = mmio_read(EMMC_BASE + EMMC_INTERRUPT);
+	debug_write_string("a", 1);
+
 	// Clear command complete slot_status
 	mmio_write(EMMC_BASE + EMMC_INTERRUPT, 0xffff0001);
 	// get the data
 	unsigned int data = mmio_read(EMMC_BASE + EMMC_DATA);
+	debug_write_string("d", 1);
 	return data;
 }
